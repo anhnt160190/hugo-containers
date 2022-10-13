@@ -3,6 +3,8 @@ version: "2"
 services:
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
+    container_name: zookeeper
+    hostname: zookeeper
     ports:
       - "2181:2181"
     volumes:
@@ -11,6 +13,8 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
     image: docker.io/bitnami/kafka:3.2
+    container_name: kafka
+    hostname: kafka
     ports:
       - "9092:9092"
     volumes:
@@ -21,13 +25,15 @@ services:
     depends_on:
       - zookeeper
   kafka-ui:
+    container_name: kafka-ui
     image: provectuslabs/kafka-ui
+    hostname: kafka-ui
     ports:
       - "38080:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: localhost:2181
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
     depends_on:
       - zookeeper
       - kafka
