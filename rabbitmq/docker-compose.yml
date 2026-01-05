@@ -1,0 +1,16 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.7-management-alpine
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      # This specifically fixes the "Socket closed" handshake error for guest/guest
+      - RABBITMQ_ALLOW_REMOTE_GUESS_LOOPBACK=true
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  rabbitmq_data:
